@@ -1,6 +1,3 @@
-inspirit.machine
-================
-
 An engine that uses LLVM/Clang to Jit C++
 ========================================================
 
