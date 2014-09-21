@@ -1,0 +1,14 @@
+#include <memory>
+#include "../../IGameScreen.hpp"
+namespace inspirit
+{
+class Engine
+{
+public:
+	static void PushScreen(IGameScreen*);
+	static std::shared_ptr<IGameScreen> PopScreen();
+   inline static IGameScreen* TopScreen();
+   inline static IGameScreen const* CurrentScreen();
+	inline static double DeltaT();
+};
+};

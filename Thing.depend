@@ -1,0 +1,33 @@
+# depslib dependency file v1.0
+1411199413 source:/home/steve/Project/Stuff/main.cpp
+	<stack>
+	<cstdio>
+	<memory>
+	<stdexcept>
+	<GL/glew.h>
+	<GLFW/glfw3.h>
+	"Engine.hpp"
+	"IGameScreen.hpp"
+	<tinyxml2.h>
+	<boost/filesystem/operations.hpp>
+	<llvm/IR/Module.h>
+	<llvm/IR/LLVMContext.h>
+	<llvm/Support/SourceMgr.h>
+	<llvm/ExecutionEngine/JIT.h>
+	<llvm/Support/TargetSelect.h>
+	<llvm/Support/MemoryBuffer.h>
+	<llvm/Bitcode/ReaderWriter.h>
+	<llvm/ExecutionEngine/GenericValue.h>
+	<llvm/ExecutionEngine/ExecutionEngine.h>
+	<string>
+
+1410982887 source:/home/steve/Project/Stuff/IGameScreen.cpp
+	"IGameScreen.hpp"
+
+1410982751 /home/steve/Project/Stuff/IGameScreen.hpp
+
+1411160698 /home/steve/Project/Stuff/Engine.hpp
+	<stack>
+	<memory>
+	"IGameScreen.hpp"
+

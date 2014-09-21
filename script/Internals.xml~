@@ -1,0 +1,10 @@
+<Internals>
+	<Namespace name="inspirit">
+		<Class name="Engine">
+			<Function>inspirit::Engine::PushScreen</Function>
+			<Function>inspirit::Engine::PopScreen</Function>
+			<Function>inspirit::Engine::TopScreen</Function>
+			<Function>inspirit::Engine::CurrentScreen</Function>
+		</Class>
+	</Namespace>
+</Internals>
