@@ -1,7 +1,7 @@
 inspirit.machine
 ================
 
-An engine I'm working on that uses LLVM/Clang to Jit C++
+An engine that uses LLVM/Clang to Jit C++
 ========================================================
 
 The system uses clang to compile c++ to llvm bitcode. LLVM is used to load bitcode, get a pointer to an init function
