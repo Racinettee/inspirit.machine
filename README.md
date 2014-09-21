@@ -9,12 +9,12 @@ Development Dependancies
 ========================
 > all available in ubuntu repositories except for glfw3
 
-llvm
-boost filesystem
-boost system
-glfw3
-glew
-tinyxml2
+llvm<br/>
+boost filesystem<br/>
+boost system<br/>
+glfw3<br/>
+glew<br/>
+tinyxml2<br/>
 
 clang is required to compile c or c++ modules to llvm bitcode. The command to do so is:
 clang++ -c file.cpp -emit-llvm
