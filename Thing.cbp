@@ -49,6 +49,7 @@
 			<Add option="`pkg-config --libs glfw3`" />
 			<Add option="`llvm-config --libs`" />
 			<Add option="`llvm-config --ldflags`" />
+			<Add option="`pkg-config --libs tinyxml2`" />
 			<Add library="boost_filesystem" />
 			<Add library="boost_system" />
 		</Linker>

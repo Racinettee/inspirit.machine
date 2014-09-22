@@ -55,7 +55,5 @@ int main(int argc, char** argv)
 		string cmd = "mv ./";
 		cmd += outputfile + " ./" + filename;
 		system(cmd.c_str());
-		cmd = "rm "; cmd+=outputfile;
-		system(cmd.c_str());
 	}
 }

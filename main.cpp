@@ -143,6 +143,7 @@ string error_str;
 // Loadbitcode stuff
 // -----------------
 Module* LoadBitcodeModule(const char* source_name, const std::string& = "");
+void ExposeInternals();
 //void BindSymbols(Module* m);
 void Engine::Startup()
 {
@@ -187,7 +188,7 @@ void Engine::Startup()
 //    puts(error_str.c_str());
     //Module* Internals = LoadBitcodeModule("script/Internals.cpp");
     InitCPP = LoadBitcodeModule("script/Init.cpp");
-    LoadBitcodeModule("script/Internals.cpp", "-s");
+    //LoadBitcodeModule("script/Internals.cpp", "-s");
     // ---------------------------------
     // --------------------------------
     //BindSymbols(Internals);
@@ -237,6 +238,43 @@ Module* LoadBitcodeModule(const char* source_name, const std::string& extra)
   fclose(fp);
   puts(errors.c_str());
   return m;
+}
+void GenerateCPPFromXML(const std::string& doc_name);
+void ExposeInternals()
+{
+  using namespace boost;
+
+  if(!filesystem::exists("script/Internals.xml"))
+    throw re("script/Internals.xml not found");
+  if(!filesystem::exists("script/Internals.ll"))
+  {
+    // Generate it from Internals.cpp, which if not found then we have to quit
+    if(!filesystem::exists("script/Internals.cpp"))
+    {
+      // we have to generate it from the xml
+      GenerateCPPFromXML("script/Internals.xml");
+    }
+    // -----------------------------------------------
+  }
+  // -------------------------------
+  // We should now be able to open Internals.ll and get each symbol line by line
+  // ---------------------------------------------------------------------------
+}
+void GenCPPFromChild(ostream&, XMLNode*);
+void GenerateCPPFromXML(const std::string& doc_name)
+{
+  string result_filename = doc_name.substr(0, doc_name.find_last_of(".xml"))+".cpp";
+  // -------------------------------------------------------------------------------
+  using namespace tinyxml2;
+  XMLDocument doc;
+  doc.LoadFile(doc_name.c_str());
+  // -----------------------------
+  XMLNode* symbol = doc.FirstChildElement();
+  // -------------------------------------
+  do
+  {
+    GenCPPFromChild()
+  } while(symbol != doc.LastChildElement);
 }
 //void BindSymbols(Module* internals)
 //{
