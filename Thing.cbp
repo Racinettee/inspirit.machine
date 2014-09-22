@@ -40,11 +40,15 @@
 			</Target>
 		</Build>
 		<Compiler>
+			<Add option="-fsanitize=address" />
+			<Add option="-Wnon-virtual-dtor" />
+			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 			<Add option="-D__STDC_CONSTANT_MACROS" />
 			<Add option="-D__STDC_LIMIT_MACROS" />
 		</Compiler>
 		<Linker>
+			<Add option="-fsanitize=address" />
 			<Add option="-rdynamic" />
 			<Add option="`pkg-config --libs glfw3`" />
 			<Add option="`llvm-config --libs`" />

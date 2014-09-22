@@ -260,21 +260,50 @@ void ExposeInternals()
   // We should now be able to open Internals.ll and get each symbol line by line
   // ---------------------------------------------------------------------------
 }
-void GenCPPFromChild(ostream&, XMLNode*);
+void GenCPPFromChild(ostream&, tinyxml2::XMLNode*);
+// ------------------------------------------------------
+// GenerateCPPFromXML:
+// Input: xml document name to generate from
+// ------------------------------------------
+// Iterates through an xml document and creates corresponding
+// c++ functions and structures. The purpose behind this is
+// to generate llvm ir from the resulting c++ file name
+// that we can use to get the mangled names from. The
+// mangled names will be used with dlsym to get pointers.
+// -------------------------------------------------------
+#include <fstream>
 void GenerateCPPFromXML(const std::string& doc_name)
 {
   string result_filename = doc_name.substr(0, doc_name.find_last_of(".xml"))+".cpp";
+  ofstream cpp_file(result_filename.c_str());
+  result_filename = ""; // empty the string
   // -------------------------------------------------------------------------------
   using namespace tinyxml2;
   XMLDocument doc;
   doc.LoadFile(doc_name.c_str());
   // -----------------------------
+  // This is the root node.
   XMLNode* symbol = doc.FirstChildElement();
   // -------------------------------------
-  do
+  XMLNode* child = symbol->FirstChildElement();
+  for(XMLNode* child = symbol->FirstChildElement();
+      child != symbol->LastChildElement();
+      child = child->NextSiblingElement())// do
   {
-    GenCPPFromChild()
-  } while(symbol != doc.LastChildElement);
+    // This function shall expect the child, then its sibling and so fourth
+    GenCPPFromChild(cpp_file, child);
+    child = child->NextSiblingElement();
+  }// while(child != doc.LastChildElement);
+}
+// ------------------------------------------
+// GenCPPFromChile:
+// Input: output file stream, the child node we're working from
+// ------------------------------------------------------------
+// The work horse function for GenerateCPPFromXML
+// ----------------------------------------------
+void GenCPPFromChild(ostream& output, tinyxml2::XMLNode* element)
+{
+  if(element->)
 }
 //void BindSymbols(Module* internals)
 //{
