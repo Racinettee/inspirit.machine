@@ -1,6 +1,5 @@
 #ifndef INSPIRIT_IGAMESCREEN_HPP
 #define INSPIRIT_IGAMESCREEN_HPP
-#include <memory>
 namespace inspirit
 {
 class IGameScreen
@@ -23,6 +22,5 @@ private:
   friend class Engine;
   bool _is_loaded = false;
 };
-typedef std::shared_ptr<IGameScreen> shared_gamescreen;
 };
 #endif // INSPIRIT_IGAMESCREEN_HPP

@@ -239,7 +239,6 @@ Module* LoadBitcodeModule(const char* source_name, const std::string& extra)
   puts(errors.c_str());
   return m;
 }
-void GenerateCPPFromXML(const std::string& doc_name);
 void ExposeInternals()
 {
   using namespace boost;
@@ -260,63 +259,103 @@ void ExposeInternals()
   // We should now be able to open Internals.ll and get each symbol line by line
   // ---------------------------------------------------------------------------
 }
-void GenCPPFromChild(ostream&, tinyxml2::XMLNode*);
-// ------------------------------------------------------
-// GenerateCPPFromXML:
-// Input: xml document name to generate from
-// ------------------------------------------
-// Iterates through an xml document and creates corresponding
-// c++ functions and structures. The purpose behind this is
-// to generate llvm ir from the resulting c++ file name
-// that we can use to get the mangled names from. The
-// mangled names will be used with dlsym to get pointers.
-// -------------------------------------------------------
-#include <fstream>
-void GenerateCPPFromXML(const std::string& doc_name)
+// ------------------------------------
+// ParseDream is the xml parsing function intended to output c++ declarations.
+// It will also output the functions defined in the xml will code bodies
+// so that the IRFile output can be read for the functions 'mangled' name.
+// ---------------------------------
+// ParseDream is recursive. It re-enters when a container type structure
+// is involved such as a class or namespace. To iterate over a set of siblings
+// is iterative : P however.
+// -------------------------------------
+// ParseDream is not a good name for a function in this program however, thats
+// its name in the test bed i made to produce this function, and the name of
+// the example xml on the tinyxml website is dream.xml
+// ----------------------------------------
+void ParseDream(XMLNode* root, ostream& output)
 {
-  string result_filename = doc_name.substr(0, doc_name.find_last_of(".xml"))+".cpp";
-  ofstream cpp_file(result_filename.c_str());
-  result_filename = ""; // empty the string
-  // -------------------------------------------------------------------------------
-  using namespace tinyxml2;
-  XMLDocument doc;
-  doc.LoadFile(doc_name.c_str());
-  // -----------------------------
-  // This is the root node.
-  XMLNode* symbol = doc.FirstChildElement();
-  // -------------------------------------
-  XMLNode* child = symbol->FirstChildElement();
-  for(XMLNode* child = symbol->FirstChildElement();
-      child != symbol->LastChildElement();
-      child = child->NextSiblingElement())// do
+  for(auto child = root->FirstChildElement();
+      child;
+      child=child->NextSiblingElement())
   {
-    // This function shall expect the child, then its sibling and so fourth
-    GenCPPFromChild(cpp_file, child);
-    child = child->NextSiblingElement();
-  }// while(child != doc.LastChildElement);
+    cout << child->Value() << endl;
+    string type = child->Value();
+    // -----------------------
+    if(type=="Include")
+    {
+      if(child->GetText()!=nullptr)
+      {
+        string file = child->GetText();
+        string inctype = "\"\"";
+        if(auto attr = child->FirstAttribute())
+        {
+          string inp =attr->Value();
+          if(inp=="remote")
+            inctype="<>";
+        }
+        output << "#include " << inctype[0] << file << inctype[1] << endl;
+      }
+      else
+        cerr << "Empty include tag ommited" << endl;
+    }// END IF TYPE==INCLUDE
+    else if(type=="Namespace")
+    {
+      if(child->GetText()!=nullptr)
+      {
+        string name = child->GetText();
+        output << "namespace " << name;
+      }
+      else
+      {
+        output << "namespace\n";
+        cerr << "Anonymous namepace defined\n";
+      }
+      if(child->FirstChildElement()!=nullptr)
+      {
+        output << "{" << endl;
+        ParseDream(child, output);
+        output << "};" << endl;
+      }
+      else
+        cerr << "Empty namespace created" << endl;
+    }// END IF TYPE==NAMESPCE
+    else if(type=="Class")
+    {
+      if(child->GetText()!=nullptr)
+      {
+        string name = child->GetText();
+        output << "class " << name;
+      }
+      else
+        cerr << "Empty class ommited" << endl;
+      if(child->FirstChildElement()!=nullptr)
+      {
+        output << "{" << endl;
+        ParseDream(child, output);
+        output << "};"<< endl;
+      }
+      else
+      {
+        output << ";" << endl;
+        fprintf(stderr, "class %s declared, but not interface made\n", child->GetText());
+      }
+    } // END IF TYPE==CLASS
+    else if(type=="Function")
+    {
+      // -------------------------------
+      // Here we check for modifier prefixes
+      // -------------------------------
+      if(auto stat = child->FirstAttribute())
+      {
+        string val = stat->Value();
+        output << val << " ";
+      }
+      if(child->GetText()!=nullptr)
+      {
+        output << child->GetText() << ";" << endl;
+      }
+      else cerr << "No named included for function tag. ommited" << endl;
+      // ------------------------------
+    }
+  } // END FOR LOOP
 }
-// ------------------------------------------
-// GenCPPFromChile:
-// Input: output file stream, the child node we're working from
-// ------------------------------------------------------------
-// The work horse function for GenerateCPPFromXML
-// ----------------------------------------------
-void GenCPPFromChild(ostream& output, tinyxml2::XMLNode* element)
-{
-  if(element->)
-}
-//void BindSymbols(Module* internals)
-//{
-//  vector<std::string> symbol_names;
-//  using namespace tinyxml2;
-//  XMLDocument doc;
-//  doc.LoadFile("script/Internals.xml");
-//  // ----------------------------------
-//  XMLNode* symbol = doc.FirstChildElement("Internal")->FirstChildElement(
-//    "Function");
-//  while(symbol != doc.LastChildElement())
-//  {
-//    //const char* text = symbol->GetText()->Value();
-//
-//  }
-//}
