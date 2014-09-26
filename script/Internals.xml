@@ -1,10 +1,13 @@
 <Internals>
-	<Namespace name="inspirit">
-		<Class name="Engine">
-			<Function>PushScreen</Function>
-			<Function>PopScreen</Function>
-			<Function>TopScreen</Function>
-			<Function>CurrentScreen</Function>
-		</Class>
-	</Namespace>
+	<Include typ="remote">memory</Include>
+	<Include>inc/IGameScreen.hpp</Include>
+  <Namespace>inspirit
+    <Class>Engine
+      <Function mod="static" ret="void">PushScreen(IGameScreen*)</Function>
+      <Function mod="static" ret="shared_gamescreen">PopScreen()</Function>
+      <Function mod="static" ret="IGameScreen const*">CurrentScreen()</Function>
+      <Function mod="static" ret="IGameScreen*">TopScreen()</Function>
+      <Function mod="static" ret="double">DeltaT()</Function>
+    </Class>
+  </Namespace>
 </Internals>

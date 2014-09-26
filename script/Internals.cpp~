@@ -1,17 +1,28 @@
-// Will declare names that can be mapped to the jit
-//#include "inc/IEngine.hpp"
-#include <memory>
 #include "../IGameScreen.hpp"
-#include "inc/IEngine.hpp"
+#include <memory>
 namespace inspirit
-{
-void Engine::PushScreen(IGameScreen*) { }
-// --------------------------------------
-std::shared_ptr<IGameScreen> Engine::PopScreen() { }
-// -------------------------------------------------
-IGameScreen const* Engine::CurrentScreen() { }
-// -------------------------------------------
-IGameScreen* Engine::TopScreen() { }
-// ---------------------------------
-double Engine::DeltaT() { }
+    {
+class Engine
+      {
+static void PushScreen(IGameScreen*);
+static shared_gamescreen PopScreen();
+static IGameScreen const* CurrentScreen();
+static IGameScreen* TopScreen();
+static double DeltaT();
 };
+};
+void inspirit
+    ::Engine
+      ::PushScreen(inspirit::IGameScreen*){ }
+shared_gamescreen inspirit
+    ::Engine
+      ::PopScreen(){ }
+inspirit::IGameScreen const* inspirit
+    ::Engine
+      ::CurrentScreen(){ }
+inspirit::IGameScreen* inspirit
+    ::Engine
+      ::TopScreen(){ }
+double inspirit
+    ::Engine
+      ::DeltaT(){ }
