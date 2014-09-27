@@ -36,8 +36,5 @@ public:
 };
 extern "C" void Init()
 {
-	
-	//Engine::CurrentScreen();
 	Engine::PushScreen(new StartScreen());
-//	Engine::PopScreen();
 }
