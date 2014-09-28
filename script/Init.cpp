@@ -1,7 +1,7 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #include <stdio.h>
-#include "inc/IEngine.hpp"
+#include "../Engine.hpp"
 // --------------------------
 using namespace inspirit;
 // ----------------------
@@ -9,7 +9,7 @@ class SecondScreen: public IGameScreen
 {
 	virtual void Init() override
 	{
-		glClearColor(1.0f, 0.8f, 0.8f, 1.0f);
+		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 	}
 	virtual void Render() const { glClear(GL_COLOR_BUFFER_BIT); }
 	virtual void Update(double time) const { }

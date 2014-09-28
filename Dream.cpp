@@ -1,5 +1,12 @@
 // -------------------------
 #include <tinyxml2.h>
+#include <fstream>
+#include <vector>
+#include <string>
+#include <utility>
+#include <iostream>
+#include <cstdio>
+using namespace std;
 // -------------------
 void WriteDream(ostream& output, vector<pair<string,string> >& methods)
 {
@@ -25,7 +32,7 @@ void ParseDream(tinyxml2::XMLNode* root, ostream& output, vector<string> names, 
       child;
       child=child->NextSiblingElement())
   {
-    cout << child->Value() << endl;
+    puts(child->Value());//cout << child->Value() << endl;
     string type = child->Value();
     // -----------------------
     if(type=="Include")
@@ -43,7 +50,8 @@ void ParseDream(tinyxml2::XMLNode* root, ostream& output, vector<string> names, 
         output << "#include " << inctype[0] << file << inctype[1] << endl;
       }
       else
-        cerr << "Empty include tag ommited" << endl;
+        fputs("Empty include tag ommited",stderr);
+        //cerr << "Empty include tag ommited" << endl;
     }// END IF TYPE==INCLUDE
     else if(type=="Namespace")
     {
@@ -56,7 +64,8 @@ void ParseDream(tinyxml2::XMLNode* root, ostream& output, vector<string> names, 
       else
       {
         output << "namespace\n";
-        cerr << "Anonymous namepace defined\n";
+        fputs("Anonymouse namespace defined",stderr);
+        //cerr << "Anonymous namepace defined\n";
       }
       if(child->FirstChildElement()!=nullptr)
       {
@@ -67,7 +76,8 @@ void ParseDream(tinyxml2::XMLNode* root, ostream& output, vector<string> names, 
         names.pop_back();
       }
       else
-        cerr << "Empty namespace created" << endl;
+        fputs("Empty namespace created",stderr);
+        //cerr << "Empty namespace created" << endl;
     }// END IF TYPE==NAMESPCE
     else if(type=="Class")
     {
@@ -78,7 +88,8 @@ void ParseDream(tinyxml2::XMLNode* root, ostream& output, vector<string> names, 
         output << "class " << name;
       }
       else
-        cerr << "Empty class ommited" << endl;
+        fputs("Empty class omitted",stderr);
+        //cerr << "Empty class ommited" << endl;
       if(child->FirstChildElement()!=nullptr)
       {
         names.push_back(name+"::");
@@ -122,7 +133,8 @@ void ParseDream(tinyxml2::XMLNode* root, ostream& output, vector<string> names, 
         fullname+=child->GetText();
         methods.push_back(pair<string,string>(ret_type, fullname));
       }
-      else cerr << "No named included for function tag. ommited" << endl;
+      else fputs("No named included for function tag. ommited",stderr);
+      //cerr << "No named included for function tag. ommited" << endl;
       // ------------------------------
     }
   } // END FOR LOOP

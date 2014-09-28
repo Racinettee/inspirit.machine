@@ -57,9 +57,11 @@
 			<Add library="boost_filesystem" />
 			<Add library="boost_system" />
 		</Linker>
+		<Unit filename="Dream.cpp" />
 		<Unit filename="Engine.hpp" />
 		<Unit filename="IGameScreen.cpp" />
 		<Unit filename="IGameScreen.hpp" />
+		<Unit filename="Internals.cpp" />
 		<Unit filename="main.cpp" />
 		<Unit filename="version.h" />
 		<Extensions>
