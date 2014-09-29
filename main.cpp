@@ -103,9 +103,9 @@ void Engine::MainLoop()
   {
     double t1 = glfwGetTime();
     // Update here
-    CurrentScreen()->Update(DeltaT());//current_screen->Update();
+    current_screen->Update(DeltaT());//current_screen->Update();
     // Render here
-    CurrentScreen()->Render();//current_screen->Render();
+    current_screen->Render();//current_screen->Render();
     // Swap buffers
     glfwSwapBuffers(window);
     // ---------------------
